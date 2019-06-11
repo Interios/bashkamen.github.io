@@ -1,0 +1,21 @@
+<div class="coin-chat"> 
+    <div class="coin-chat__header">
+        <span class="title">Чат</span>
+    </div>  
+    <div class="coin-chat__body">
+        <div class="message" *ngFor="let message of messages">
+            <div class="message-header">
+                <i></i>
+                <span class="message-user">{{ message.name }}</span>
+                <div class="flex-spacer"></div>
+                <span class="message-time">20:12</span>
+            </div>
+            <div class="message-text">{{ message.text }}</div>
+        </div>
+    </div>
+    <div class="coin-chat__footer">
+        <div class="form">
+            <input type="text" placeholder="Сообщение" />
+        </div>
+    </div>
+</div>

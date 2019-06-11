@@ -1,0 +1,17 @@
+<div class="coin-rates">
+    <div class="coin-rates__header">
+        <div class="title">Ставки</div>
+    </div>
+    <div class="coin-rates__body">
+        <div class="coin-rates__body-title">
+            <span class="cls-currency">Валюта</span>
+            <span class="cls-winRate">Шанс%</span>
+            <span class="cls-profit">Профит</span>
+        </div>
+        <div class="coin-rates__body-item" *ngFor="let rate of rates">
+            <span class="cls-currency">{{ rate.currency }}</span>
+            <span class="cls-winRate">{{ rate.winRate }}%</span>
+            <span class="cls-profit" [ngClass]="{'win': rate.profit>0, 'lose': rate.profit<0 }">{{ rate.profit }}</span>
+        </div>
+    </div>
+</div>
