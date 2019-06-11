@@ -1,0 +1,443 @@
+/* You can add global styles to this file, and also import other style files */
+
+//Mixins===============================================================================================================>
+@function strip-units($value)
+  @return $value / ($value * 0 + 1)
+
+@function em($pixels, $font: 10px)
+  $newval: $pixels / $font
+  @return #{strip-units($newval)}em
+
+@function tovw($pixels, $vpWidth: 640px)
+  $newval: ($pixels / $vpWidth) * 100
+  @return #{strip-units($newval)}vw
+
+@function tovh($pixels, $vpHeight: 640px)
+  $newval: ($pixels / $vpHeight) * 100
+  @return #{strip-units($newval)}vh
+
+
+//Fonts================================================================================================================>
+@mixin vwplusem($selector, $pixels, $font: 10px, $vpWidth: 1600px)
+  @if($vpWidth >= 1600px)
+    #{$selector} : em($pixels, $font)
+    @media (max-width: 1600px)
+      #{$selector} : tovw($pixels, $vpWidth)
+
+
+@mixin vwplusemtb($selector, $pixels, $font: 10px, $vpWidth: 768px)
+  #{$selector} : tovw($pixels, $vpWidth)
+@mixin vwplusemmb($selector, $pixels, $font: 10px, $vpWidth: 640px)
+  #{$selector} : tovw($pixels, $vpWidth)
+
+@mixin clearfix()
+  &:before,
+  &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+
+@mixin absCenter()
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+@mixin placeholderColor($color)
+  &::-webkit-input-placeholder
+    color: $color
+  &::-moz-placeholder
+    color: $color
+  &:-moz-placeholder
+    color: $color
+  &:-ms-input-placeholder
+    color: $color
+
+//Fonts================================================================================================================>
+$main-font: 'Ubuntu', sans-serif
+$font-alt:  'Bebas Neue', serif
+//Removing default properties==========================================================================================>
+p,div,h1,h2,h3,h4,h5,h6,ul,ol,a,li,form, input, fieldset
+  margin: 0
+  padding: 0
+  border: none
+
+//Hide spin-buttons for input(number)
+input[type=number]
+  -moz-appearance: textfield
+
+input[type=number]::-webkit-inner-spin-button
+  -webkit-appearance: none
+  margin: 0
+
+input[type=number]::-webkit-outer-spin-button
+  -webkit-appearance: none
+  margin: 0
+
+*, *:focus
+  outline: none
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+a:focus
+  outline: none
+
+body, html
+  height: 100%
+  position: relative
+body
+  font-size: 10px
+  min-width: 320px
+  box-sizing: border-box
+  font-family: $main-font
+  -webkit-font-smoothing: antialiased
+  overflow-x: hidden
+  width: 100%
+
+.flex-spacer
+  flex-grow: 1
+.space-height
+  $f: 14
+  line-height: 1.5
+  color: #a5a9c2
+  display: block
+  text-align: center
+  @include vwplusem('font-size', $f)
+//====== general ======
+.container
+    @include vwplusem('max-width', 1200)
+    @include vwplusem('padding-right', 20)
+    @include vwplusem('padding-left', 20)
+    margin: 0 auto
+    width: 100%
+.logo
+    display: inline-block
+    @include vwplusem('width', 50)
+    @include vwplusem('height', 50)
+    svg
+      width: 100%
+      height: 100%
+.authorization
+    .nav-menu
+        display: flex
+        justify-content: space-between
+        align-items: center
+    header
+        background-color: #000736
+        display: flex
+        justify-content: space-between
+        align-items: center
+        min-height: 8em
+    &-body
+        text-align: center
+        @include vwplusem('padding-top', 100)
+    &-title
+        $f: 40
+        font-weight: 500
+        font-style: normal
+        font-stretch: normal
+        line-height: 1.25
+        letter-spacing: normal
+        color: #2b3363
+        display: inline-block
+        width: 100%
+        @include vwplusem('font-size', $f)
+    &-form
+        margin: auto
+        text-align: left
+        @include vwplusem('width', 380)
+        label
+            position: relative
+            display: block
+            @include vwplusem('margin-top', 30)
+            @include vwplusem('margin-bottom', 30)
+        span
+            $f: 16
+            line-height: 1.5
+            color: #a5a9c2
+            display: inline-block
+            @include vwplusem('font-size', $f)
+            @include vwplusem('margin-bottom', 8, $f)
+        input[type="text"], input[type="password"]
+            $f: 16
+            font-weight: 400
+            font-style: normal
+            font-stretch: normal
+            line-height: 1.5
+            letter-spacing: normal
+            width: 100%
+            color: #6e728e
+            background: transparent
+            border: 1px solid #dfdded
+            @include vwplusem('font-size', $f)
+            @include vwplusem('height', 50, $f)
+            @include vwplusem('padding-left', 12, $f)
+            @include vwplusem('padding-right', 12, $f)
+            @include vwplusem('border-radius', 6, $f)
+            @include placeholderColor(rgba(165,169,194,.6))
+
+
+// ======== MAIN ========
+body
+  background-color: #1E2A3F
+.nav
+  background: #18A369
+  color: #FFFFFF
+  display: flex
+  @include vwplusem('padding-bottom', 16)
+  @include vwplusem('padding-top', 16)
+  @include vwplusem('padding-left', 24)
+  @include vwplusem('padding-right', 24)
+  &-user
+    display: flex
+    align-items: center
+    i
+      display: inline-block
+      background-color: #ffffff
+      border-radius: 50%
+      @include vwplusem('width', 32)
+      @include vwplusem('height', 32)
+      @include vwplusem('margin-right', 16)
+    &__name
+      $f: 18
+      // font-family: Roboto
+      font-style: normal
+      font-weight: normal
+      line-height: 1.6
+      @include vwplusem('font-size', $f)
+  &-bar
+    display: flex
+    align-items: center
+    &__item
+      @include vwplusem('margin-left', 42)
+      .title
+        $f: 18
+        display: inline-block
+        @include vwplusem('margin-right', 8, $f)
+        @include vwplusem('font-size', $f)
+      .description
+        $f: 18
+        @include vwplusem('font-size', $f)
+  &-href
+    $f: 18
+    // font-family: Roboto
+    color: #ffffff
+    font-style: normal
+    font-weight: normal
+    line-height: 1.6
+    text-decoration: none
+    display: inline-flex
+    align-items: center
+    @include vwplusem('font-size', $f)
+// ======== CHAT ========
+.coin
+  &-chat
+    background-color: #1A2435
+    box-shadow: 0px 0px 10px rgba(63, 68, 92, 0.08)
+    position: fixed
+    bottom: 0
+    left: 0
+    @include vwplusem('top', 80)
+    @include vwplusem('width', 308)
+    &__header
+      background-color: #18A369
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      @include vwplusem('padding-bottom', 8)
+      @include vwplusem('padding-top', 8)
+      @include vwplusem('padding-left', 24)
+      @include vwplusem('padding-right', 24)
+      .title
+        $f: 14
+        // font-family: Roboto
+        font-style: normal
+        font-weight: 500
+        line-height: 1.4
+        color: #ffffff
+        @include vwplusem('font-size', $f)
+    &__footer
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      @include vwplusem('bottom', 16)
+      @include vwplusem('padding-left', 16)
+      @include vwplusem('padding-right', 16)
+      input[type="text"]
+        $f: 14
+        background: #29374E
+        width: 100%
+        display: inline-flex
+        align-items: center
+        @include vwplusem('height', 28, $f)
+        @include vwplusem('border-radius', 19, $f)
+        @include vwplusem('font-size', $f)
+        @include vwplusem('padding-left', 8, $f)
+        @include vwplusem('padding-right', 8, $f)
+    &__body
+      height: 100%
+      @include vwplusem('padding-top', 60)
+      @include vwplusem('padding-bottom', 60)
+      @include vwplusem('padding-left', 16)
+      @include vwplusem('padding-right', 16)
+  &-rates
+    background-color: #1A2435
+    box-shadow: 0px 0px 10px rgba(63, 68, 92, 0.08)
+    position: fixed
+    bottom: 0
+    right: 0
+    @include vwplusem('top', 80)
+    @include vwplusem('width', 340)
+    @include vwplusem('padding-top', 30)
+    &__header
+      background-color: #18A369
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      @include vwplusem('padding-bottom', 8)
+      @include vwplusem('padding-top', 8)
+      @include vwplusem('padding-left', 24)
+      @include vwplusem('padding-right', 24)
+      .title
+        $f: 14
+        // font-family: Roboto
+        font-style: normal
+        font-weight: 500
+        line-height: 1.4
+        color: #ffffff
+        @include vwplusem('font-size', $f)
+    &__body
+      @include vwplusem('padding-bottom', 8)
+      @include vwplusem('padding-top', 8)
+      @include vwplusem('padding-left', 24)
+      @include vwplusem('padding-right', 24)
+      &-title, &-item
+        display: flex
+        @include vwplusem('margin-bottom', 12)
+        @include vwplusem('margin-top', 12)
+        span
+          $f: 14
+          // font-family: Roboto
+          font-style: normal
+          font-weight: 500
+          line-height: 1.4
+          color: #9DACC7
+          display: inline-block
+          @include vwplusem('font-size', $f)
+          &.cls-currency
+            width: 32%
+            text-transform: uppercase
+          &.cls-winRate
+            width: 28%
+          &.win
+            color: #18A369
+          &.lose
+            color: #EB3349
+.message
+  background-color: #29374E
+  color: #9DACC7
+  @include vwplusem('padding', 8)
+  @include vwplusem('margin-top', 8)
+  @include vwplusem('margin-bottom', 8)
+  &-header
+    display: flex
+    align-items: center
+    i
+      display: inline-block
+      background-color: #ffffff
+      border-radius: 50%
+      @include vwplusem('width', 24)
+      @include vwplusem('height', 24)
+      @include vwplusem('margin-right', 8)
+  &-user
+    $f: 14
+    @include vwplusem('font-size', $f)
+  &-text
+    $f: 14
+    line-height: 1.6
+    @include vwplusem('margin-top', 8, $f)
+    @include vwplusem('margin-bottom', 10, $f)
+
+// ======== BUTTONS ========
+.btn-auth
+    $f: 16
+    color: #bdc8e7
+    line-height: 1.63
+    background-color: #1a206b
+    text-decoration: none
+    display: inline-block
+    @include vwplusem('font-size', $f)
+    @include vwplusem('border-radius', 20, $f)
+    @include vwplusem('padding-top', 6, $f)
+    @include vwplusem('padding-bottom', 6, $f)
+    @include vwplusem('padding-left', 20, $f)
+    @include vwplusem('padding-right', 20, $f)
+    @include vwplusem('margin-left', 20, $f)
+
+.btn-sign, .btn-signout
+    $f: 16
+    text-decoration: none
+    line-height: 1.5
+    display: block
+    text-align: center
+    width: 100%
+    border: none
+    border: 1px solid #16c8c5
+    @include vwplusem('font-size', $f)
+    @include vwplusem('border-radius', 30, $f)
+    @include vwplusem('padding-top', 10, $f)
+    @include vwplusem('padding-bottom', 10, $f)
+    @include vwplusem('padding-left', 20, $f)
+    @include vwplusem('padding-right', 20, $f)
+    @include vwplusem('margin-top', 15, $f)
+    @include vwplusem('margin-bottom', 15, $f)
+    &:hover
+      color: #fff
+      background-color: #16c8c5
+.btn-sign
+    background-color: #32d4d1
+    color: #fff
+.btn-signout
+    color: #16c8c5
+    background-color: #fff
+    
+    
+/* ======  LOADER ====== */
+.loading
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background-color: rgba(0,0,0, 0.4)
+    display: flex
+    justify-content: center
+    align-items: center
+    transition: .3s
+.lds-dual-ring
+    display: inline-block
+    width: 80px
+    height: 80px
+.lds-dual-ring:after
+    content: " "
+    display: block
+    width: 68px
+    height: 68px
+    margin: 1px
+    border-radius: 50%
+    border: 5px solid #fff
+    border-color: #fff transparent #fff transparent
+    animation: lds-dual-ring 1.2s linear infinite
+
+@keyframes lds-dual-ring
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
